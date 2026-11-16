@@ -1,30 +1,23 @@
-# 🕵️ Criminal Case File #VIZ-309: The GITAM University Murder
-### An Interactive Fair-Play Pen & Paper Homicide Mystery Game
+# 🕵️ Criminal Cases: Visakhapatnam Homicide Mysteries
+### Interactive Fair-Play Pen & Paper Detective Deduction Games
 
-A 4-day, fair-play pen-and-paper homicide mystery set at **GITAM University, Rushikonda, Visakhapatnam (Vizag)**.
-
----
-
-## 🗺️ The Proper Cartographic Map of Visakhapatnam
-
-The game features an accurate, hand-crafted cartographic vector map of **Visakhapatnam (Vizag)**:
-* **The Coastline:** Accurate curve from Bheemili in the north down past Rushikonda Beach, Kailasagiri bluff, Lawson's Bay, RK Beach, the Vizag Port Harbour, and the Dolphin's Nose promontory.
-* **★ Pin 1: GITAM University (The Crime Scene)** — Executive Suite 501, Innovation Tower overlooking Rushikonda Beach.
-* **Pin 2: Anandapuram Highway Toll Plaza** — Junction connecting Bheemili Beach Road to the NH-16 bypass where Dr. Ram's car triggered the U-turn loop.
-* **Pin 3: MVP Colony 24/7 Apollo Pharmacy** — Where Kavya bought migraine medicine at 10:56 PM.
-* **Pin 4: Siripuram & Waltair Uplands** — Inland neighborhood where Arjun claimed he was sitting on his balcony.
-* **Pin 5: RK Beach & Submarine Museum** — Oceanfront promenade.
-* **Pin 6: Dolphin's Nose Lighthouse / Vizag Port** — Marine foghorn audible only along the coastal waters (including GITAM Beach).
+A collection of fair-play detective murder mystery games set in **Visakhapatnam (Vizag) and the Eastern Ghats**.
 
 ---
 
-## 👥 The Characters
+## 📁 Case Files Available
 
-* **Raghavendra "Raghav" Varma (56):** Chief Patron & Chancellor, founder of Varma BioTech.
-* **Dr. Ram Prasad (53):** Dean of Clinical Research at GIMSR Hospital next to GITAM.
-* **Sree Nidhi Varma (49):** Wife & Trustee staying at the GITAM VIP Guest House.
-* **Arjun Rao (37):** Biotech Lab Technical Lead at GITAM.
-* **Kavya Reddy (28):** Executive assistant to the Chancellor.
+### 1. 🏫 Case #VIZ-309: The GITAM University Murder
+* **Location:** Executive Suite 501, Innovation Tower, GITAM University, Rushikonda Beach, Vizag.
+* **The Crime:** Billionaire Chancellor Raghavendra Varma poisoned with aconitine inside his oceanfront study during a coastal thunderstorm.
+* **Key Mechanics:** Visakhapatnam map (Bheemili Road, Anandapuram Highway Toll Plaza, MVP Colony Pharmacy, Dolphin's Nose foghorn) and 25–35 minute lethal toxicology curves.
+* **Web Link:** [index.html](file:///Users/shanmukhavardhan/Dev/cases/index.html)
+
+### 2. 🚂 Case #VIZ-410: The Araku Vistadome Enigma (The Ghost in Tunnel 22)
+* **Location:** Luxury Glass-Roof Vistadome Coach EV-1, Train #18551 (Vizag to Araku Kirandul Express).
+* **The Crime:** Coffee plantation baron Bhadri Raju stabbed through the heart during a 3-minute 40-second total blackout in the 2,750-meter Tunnel 22. The 120-carat Kalinga Emerald is stolen from his locked titanium briefcase.
+* **Key Mechanics:** Sealed locked-coach layout, stride-count acoustic clues, narrow 14-inch window gap ergonomics, cave moss traces, and ice flask forensics.
+* **Web Link:** [case2.html](file:///Users/shanmukhavardhan/Dev/cases/case2.html)
 
 ---
 
@@ -34,9 +27,12 @@ The game features an accurate, hand-crafted cartographic vector map of **Visakha
 ```bash
 python3 -m http.server 8080 --directory .
 ```
-Open **`http://localhost:8080`** in your browser.
+* Open **`http://localhost:8080`** for Case #1 (GITAM University).
+* Open **`http://localhost:8080/case2.html`** for Case #2 (The Araku Vistadome).
+* Use the top navigation bar to switch between cases anytime!
 
 ### In Your Terminal:
 ```bash
-python3 ./case_terminal.py
+python3 case_terminal.py
 ```
+Select **[1]** for Case #1 or **[2]** for Case #2 directly from the interactive shell menu!

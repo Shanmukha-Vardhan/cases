@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASE #VIZ-410: THE ARAKU VISTADOME ENIGMA</title>
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #cbd5e1;
+      --accent-red: #dc2626;
+      --accent-blue: #1d4ed8;
+      --accent-emerald: #059669;
+      --accent-amber: #b45309;
+      --accent-purple: #7c3aed;
+      --font-mono: 'SF Mono', 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 2px solid var(--accent-emerald);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+
+    .badge-rail {
+      background: var(--accent-emerald);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      font-family: var(--font-mono);
+      display: inline-block;
+    }
+
+    .badge-case {
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      font-family: var(--font-mono);
+      display: inline-block;
+      margin-left: 6px;
+    }
+
+    .case-nav-bar {
+      background: #0f172a;
+      color: #fff;
+      padding: 8px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-family: var(--font-mono);
+    }
+    .case-nav-bar a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 8px;
+    }
+    .case-nav-bar a:hover { text-decoration: underline; }
+
+    nav.day-tabs {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      overflow-x: auto;
+      padding: 0 20px;
+      gap: 4px;
+      position: sticky;
+      top: 67px;
+      z-index: 90;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 13px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--text-main); background: #f1f5f9; }
+    .tab-btn.active {
+      color: var(--accent-emerald);
+      border-bottom-color: var(--accent-emerald);
+      background: #ecfdf5;
+    }
+
+    main {
+      max-width: 1380px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px 60px 20px;
+    }
+
+    .tab-content { display: none !important; }
+    .tab-content.active { display: block !important; animation: fadeIn 0.2s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    .grid-2 { display: grid; grid-template-columns: 1.25fr 1fr; gap: 20px; }
+    @media (max-width: 1020px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 22px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .card-header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dialogue-box {
+      background: #ffffff;
+      border: 1px solid #d1fae5;
+      border-left: 5px solid var(--accent-emerald);
+      padding: 16px 20px;
+      border-radius: 6px;
+      margin-bottom: 22px;
+      font-size: 14px;
+      line-height: 1.6;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    .dossier-paper {
+      background: #ffffff;
+      color: #0f172a;
+      padding: 24px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      font-family: var(--font-mono);
+      position: relative;
+      border: 1px solid var(--border-color);
+      border-left: 5px solid var(--accent-red);
+    }
+    .dossier-paper h2 {
+      font-size: 17px;
+      color: #991b1b;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 6px;
+    }
+    .dossier-paper p, .dossier-paper li { font-size: 13px; line-height: 1.6; margin-bottom: 10px; }
+
+    /* SVG Map & Coach Layout */
+    .map-wrapper {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .coach-svg {
+      width: 100%;
+      height: 480px;
+      display: block;
+      border-radius: 6px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+    .pin-btn { cursor: pointer; transition: all 0.2s; }
+    .pin-btn:hover { transform: scale(1.1); filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25)); }
+
+    /* Clues */
+    .clue-item {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-emerald);
+      border-radius: 6px;
+      padding: 14px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .clue-item:hover {
+      border-color: var(--accent-emerald);
+      background: #f8fafc;
+      transform: translateX(4px);
+    }
+    .clue-title { font-weight: 700; font-size: 13.5px; color: #0f172a; margin-bottom: 4px; }
+    .clue-body { font-size: 12.5px; color: #475569; line-height: 1.5; }
+
+    /* Table */
+    .log-table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 12.5px; }
+    .log-table th { background: #f1f5f9; color: #0f172a; text-align: left; padding: 10px; border-bottom: 2px solid var(--border-color); font-weight: 700; }
+    .log-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; vertical-align: top; color: #1e293b; }
+    .log-table tr:hover { background: #f8fafc; }
+    .timestamp { color: var(--accent-emerald); font-weight: 700; white-space: nowrap; }
+
+    /* Interrogation */
+    .interrogation-console {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 16px;
+      height: 480px;
+      display: flex;
+      flex-direction: column;
+    }
+    .console-history {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 8px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .message { padding: 11px 15px; border-radius: 6px; font-size: 13.5px; line-height: 1.5; max-width: 85%; }
+    .msg-investigator { align-self: flex-end; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .msg-suspect { align-self: flex-start; background: #f1f5f9; color: #0f172a; border-left: 4px solid var(--accent-amber); }
+    .question-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      color: #0f172a;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 12.5px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .question-btn:hover { background: #f8fafc; border-color: var(--accent-emerald); transform: translateX(3px); }
+
+    /* Notes */
+    .case-notes {
+      width: 100%;
+      height: 330px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      color: #0f172a;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: 14px;
+      border-radius: 4px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    /* Form */
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 6px; text-transform: uppercase; }
+    .form-select { width: 100%; background: #ffffff; border: 1px solid var(--border-color); color: #0f172a; font-family: var(--font-mono); font-size: 13px; padding: 10px 12px; border-radius: 4px; }
+    .btn-submit-warrant {
+      background: var(--accent-emerald);
+      color: #ffffff;
+      border: none;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s;
+    }
+    .btn-submit-warrant:hover { background: #047857; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25); }
+    .verdict-box { display: none; margin-top: 24px; padding: 24px; border-radius: 6px; }
+    .verdict-box.success { background: #ecfdf5; border: 2px solid #10b981; color: #065f46; }
+    .verdict-box.failure { background: #fef2f2; border: 2px solid #ef4444; color: #991b1b; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Universal Case Navigation Bar -->
+  <div class="case-nav-bar">
+    <div>SELECT INVESTIGATION CASE:</div>
+    <div>
+      <a href="index.html">📁 CASE #1: THE GITAM UNIVERSITY MURDER</a> |
+      <a href="case2.html" style="color: #34d399;">🚂 CASE #2: THE ARAKU VISTADOME ENIGMA</a>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-title">
+      <div>
+        <span class="badge-rail">SOUTH COAST RAILWAY POLICE</span>
+        <span class="badge-case">CASE #VIZ-410</span>
+      </div>
+      <h1 style="font-size: 17px; font-weight: 800; color: #0f172a; margin-top: 3px;">
+        THE ARAKU VISTADOME ENIGMA // THE GHOST IN TUNNEL 22
+      </h1>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); text-align: right;">
+      ROUTE: VIZAG ➔ ARAKU VALLEY<br>
+      SCENE: COACH EV-1 (LOCKED TRAIN)
+    </div>
+  </header>
+
+  <nav class="day-tabs">
+    <button class="tab-btn active" onclick="switchTab('trainmap')">🚂 VISTADOME COACH & ROUTE</button>
+    <button class="tab-btn" onclick="switchTab('briefing')">📋 INCIDENT REPORT</button>
+    <button class="tab-btn" onclick="switchTab('timeline')">⏱️ TUNNEL 22 TIMELINE</button>
+    <button class="tab-btn" onclick="switchTab('clues')">🔎 5 FORENSIC CLUES</button>
+    <button class="tab-btn" onclick="switchTab('interrogate')">🎙️ PASSENGER INTERROGATIONS</button>
+    <button class="tab-btn" onclick="switchTab('notes')" style="color: var(--accent-emerald);">📝 DETECTIVE'S NOTEBOOK</button>
+    <button class="tab-btn" onclick="switchTab('chargesheet')" style="color: var(--accent-red);">⚖️ FILE ARREST CHARGESHEET</button>
+  </nav>
+
+  <main>
+
+    <!-- ==================== TAB 0: VISTADOME LAYOUT & ROUTE ==================== -->
+    <div id="tab-trainmap" class="tab-content active">
+      <div class="dialogue-box">
+        <p><strong style="color: var(--accent-emerald); font-family: var(--font-mono);">LEAD INVESTIGATOR BRIEFING:</strong> On Sunday morning, Train #18551 (Vizag to Araku Kirandul Express) entered Tunnel 22 between Tyda and Borra Caves in the Eastern Ghats. The tunnel is 2,750 meters long. The train was plunged into total darkness for exactly <strong>3 minutes and 40 seconds (8:42:00 AM to 8:45:40 AM)</strong> due to a coach generator failure. Both vestibule exit doors were locked from the inside by TTE Surya Prakash. When the train exited the tunnel into daylight over the Ananthagiri Gorge bridge, billionaire coffee tycoon <strong>Bhadri Raju (Seat 14)</strong> was found stabbed to death with an antique Araku tribal dagger. His briefcase was unlocked and the fabled <strong>Kalinga Emerald</strong> was gone.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="map-wrapper">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <strong style="font-family: var(--font-mono); font-size: 13px;">COACH EV-1 (VISTADOME) INTERIOR SEATING & MURDER LAYOUT</strong>
+            <span style="font-size: 11px; color: var(--accent-emerald); font-weight: bold; font-family: var(--font-mono);">CLICK SEATS TO INSPECT</span>
+          </div>
+
+          <!-- Crisp SVG Diagram of the Vistadome Coach EV-1 -->
+          <svg class="coach-svg" viewBox="0 0 720 480">
+            <!-- Coach Outline -->
+            <rect x="30" y="40" width="660" height="400" rx="20" fill="#f8fafc" stroke="#334155" stroke-width="3"/>
+            <!-- Glass Ceiling Indicator -->
+            <rect x="50" y="60" width="620" height="60" rx="8" fill="#e0f2fe" stroke="#38bdf8" stroke-dasharray="4,4"/>
+            <text x="260" y="95" fill="#0369a1" font-size="12" font-family="monospace" font-weight="bold">PANORAMIC GLASS ROOF (DARK IN TUNNEL)</text>
+
+            <!-- Vestibule Locked Doors -->
+            <rect x="15" y="210" width="20" height="60" fill="#dc2626" rx="4"/>
+            <text x="5" y="195" fill="#dc2626" font-size="10" font-family="monospace" font-weight="bold">LOCKED DOOR A</text>
+
+            <rect x="685" y="210" width="20" height="60" fill="#dc2626" rx="4"/>
+            <text x="615" y="195" fill="#dc2626" font-size="10" font-family="monospace" font-weight="bold">LOCKED DOOR B</text>
+
+            <!-- Central Aisle -->
+            <line x1="50" y1="240" x2="670" y2="240" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8,6"/>
+            <text x="320" y="244" fill="#94a3b8" font-size="10" font-family="monospace">CENTRAL AISLE</text>
+
+            <!-- SEAT 14: THE VICTIM (Bhadri Raju) -->
+            <g class="pin-btn" onclick="selectSeat('seat14')">
+              <rect x="390" y="270" width="70" height="65" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2.5"/>
+              <circle cx="425" cy="302" r="14" fill="#dc2626"/>
+              <text x="400" y="322" fill="#991b1b" font-size="10" font-family="sans-serif" font-weight="bold">SEAT 14 (VICTIM)</text>
+              <text x="403" y="290" fill="#b91c1c" font-size="10" font-family="sans-serif">Bhadri Raju</text>
+            </g>
+
+            <!-- SEAT 13: Meera Sen (Secretary) -->
+            <g class="pin-btn" onclick="selectSeat('seat13')">
+              <rect x="300" y="270" width="70" height="65" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle cx="335" cy="302" r="10" fill="#0284c7"/>
+              <text x="312" y="322" fill="#0f172a" font-size="10" font-family="sans-serif" font-weight="bold">SEAT 13</text>
+              <text x="308" y="290" fill="#0369a1" font-size="10" font-family="sans-serif">Meera Sen</text>
+            </g>
+
+            <!-- SEAT 12: Vikram Varma (Nephew across aisle) -->
+            <g class="pin-btn" onclick="selectSeat('seat12')">
+              <rect x="390" y="145" width="70" height="65" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle cx="425" cy="177" r="10" fill="#b45309"/>
+              <text x="402" y="197" fill="#0f172a" font-size="10" font-family="sans-serif" font-weight="bold">SEAT 12</text>
+              <text x="398" y="165" fill="#92400e" font-size="10" font-family="sans-serif">Vikram Varma</text>
+            </g>
+
+            <!-- SEAT 15: Dr. Lavanya Chari (Behind victim) -->
+            <g class="pin-btn" onclick="selectSeat('seat15')">
+              <rect x="480" y="270" width="70" height="65" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle cx="515" cy="302" r="10" fill="#059669"/>
+              <text x="492" y="322" fill="#0f172a" font-size="10" font-family="sans-serif" font-weight="bold">SEAT 15</text>
+              <text x="485" y="290" fill="#065f46" font-size="10" font-family="sans-serif">Dr. Lavanya</text>
+            </g>
+
+            <!-- SEAT 8: Kishore Naidu (Front row) -->
+            <g class="pin-btn" onclick="selectSeat('seat8')">
+              <rect x="180" y="145" width="70" height="65" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle cx="215" cy="177" r="10" fill="#7c3aed"/>
+              <text x="195" y="197" fill="#0f172a" font-size="10" font-family="sans-serif" font-weight="bold">SEAT 8</text>
+              <text x="185" y="165" fill="#6d28d9" font-size="10" font-family="sans-serif">Kishore Naidu</text>
+            </g>
+
+            <!-- TTE Service Cubicle (Rear) -->
+            <g class="pin-btn" onclick="selectSeat('tte')">
+              <rect x="580" y="145" width="80" height="65" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+              <circle cx="620" cy="177" r="10" fill="#475569"/>
+              <text x="588" y="197" fill="#0f172a" font-size="9.5" font-family="sans-serif" font-weight="bold">TTE CUBICLE</text>
+              <text x="590" y="165" fill="#334155" font-size="9.5" font-family="sans-serif">Surya Prakash</text>
+            </g>
+
+            <!-- Observation Lounge & Water Dispenser -->
+            <g class="pin-btn" onclick="selectSeat('dispenser')">
+              <rect x="580" y="270" width="80" height="65" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+              <circle cx="620" cy="302" r="8" fill="#0284c7"/>
+              <text x="588" y="322" fill="#0369a1" font-size="9" font-family="sans-serif" font-weight="bold">WATER DISPENSER</text>
+              <text x="592" y="290" fill="#0284c7" font-size="9" font-family="sans-serif">Lounge Area</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📍 COACH LOCATION INTEL</span>
+          </div>
+          <div id="seat-intel" style="font-size: 13.5px; line-height: 1.7; color: #1e293b;">
+            <strong style="color: #dc2626; font-size: 15px;">★ SEAT 14: Bhadri Raju (The Victim)</strong>
+            <p style="margin-top: 6px;">
+              Bhadri Raju, 62, coffee plantation magnate and bauxite leaseholder. Found in his rotating recliner seat, which had been turned 90 degrees facing the right window. Single stab wound under the 5th left rib from an antique Araku tribal dagger. Death was instantaneous.
+            </p>
+            <ul style="margin: 8px 0 8px 18px; font-size: 12.5px; color: #475569;">
+              <li>His titanium briefcase was on his lap, unlatched with the combination lock spun.</li>
+              <li>The 120-carat "Kalinga Emerald" was missing.</li>
+              <li>A faint trace of green luminescent moss was found on the floorboard beneath his shoes.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 1: INCIDENT REPORT ==================== -->
+    <div id="tab-briefing" class="tab-content">
+      <div class="grid-2">
+        <div class="dossier-paper">
+          <h2>RAILWAY POLICE FIR #VIZ-410 (ARAKU GRP)</h2>
+          <p><strong>Victim:</strong> Bhadri Raju (Age 62, Chairman of Raju Coffee Estates, net worth ~₹280 Crores).</p>
+          <p><strong>Location:</strong> Coach EV-1, Train 18551 Vistadome, Tunnel 22 (Km 84/6), Eastern Ghats.</p>
+          <p><strong>Time of Death:</strong> Sunday Morning, between 8:42:00 AM and 8:45:40 AM (During the 3m 40s blackout).</p>
+          <p><strong>Murder Weapon:</strong> Antique silver-filigree Araku tribal hunting dagger (7-inch curved blade).</p>
+          <p><strong>Scene Facts:</strong></p>
+          <ul style="margin-left: 20px;">
+            <li>Coach EV-1 was sealed. For mountain tunnel safety, both end doors were locked by TTE key.</li>
+            <li>No passenger could enter or leave Coach EV-1 during the tunnel run.</li>
+            <li>The coach power generator suffered a localized breaker trip right as the train entered Tunnel 22.</li>
+            <li>When the train exited Tunnel 22 onto the Galikonda bridge into sunlight, Bhadri Raju was found dead.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">👥 THE 5 PASSENGERS IN COACH EV-1</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="clue-item">
+              <div class="clue-title">1. Vikram Varma (36) — Nephew (Seat 12)</div>
+              <div class="clue-body">Drowning in ₹4 Crores of Hyderabad gambling debts. Bhadri caught him forging land transfer deeds two days ago and threatened to disown him.</div>
+            </div>
+
+            <div class="clue-item">
+              <div class="clue-title">2. Dr. Lavanya Chari (44) — Botanist & Tribal Activist (Seat 15)</div>
+              <div class="clue-body">Fought Bhadri Raju’s illegal bauxite mining on tribal shrine lands in Araku. Bhadri filed a lawsuit to bankrupt her NGO on Friday.</div>
+            </div>
+
+            <div class="clue-item">
+              <div class="clue-title">3. Kishore Naidu (51) — Coffee Consortium Director (Seat 8)</div>
+              <div class="clue-body">Bhadri was conducting a surprise audit on Kishore's export subsidies and uncovered ₹12 Crores missing.</div>
+            </div>
+
+            <div class="clue-item">
+              <div class="clue-title">4. Meera Sen (29) — Private Secretary & Gem Appraiser (Seat 13)</div>
+              <div class="clue-body">Knew the combination to the briefcase (#914). Was tasked with carrying the Kalinga Emerald to an international buyer in Araku.</div>
+            </div>
+
+            <div class="clue-item">
+              <div class="clue-title">5. Surya Prakash (58) — Traveling Ticket Examiner (TTE)</div>
+              <div class="clue-body">Possessed the only master key to the coach end doors. Retiring next month with an unblemished record.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2: TUNNEL 22 TIMELINE ==================== -->
+    <div id="tab-timeline" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">⏱️ MASTER RUNNING LOG // TRAIN 18551 (SUNDAY MORNING)</span>
+        </div>
+        <table class="log-table">
+          <thead>
+            <tr>
+              <th>EXACT TIME</th>
+              <th>TRAIN LOCATION</th>
+              <th>EVENT RECORDED</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="timestamp">7:05 AM</td>
+              <td>Visakhapatnam Jn</td>
+              <td>Train departs Platform 1 on time. Vistadome Coach EV-1 attached at the rear.</td>
+            </tr>
+            <tr>
+              <td class="timestamp">8:10 AM</td>
+              <td>Srungavarapukota (S.Kota)</td>
+              <td>Train begins climb into the Eastern Ghats ghat section.</td>
+            </tr>
+            <tr>
+              <td class="timestamp">8:35 AM</td>
+              <td>Tyda Station</td>
+              <td>Train passes Tyda at 45 km/h. TTE Surya Prakash announces: "Entering mountain tunnel zone."</td>
+            </tr>
+            <tr>
+              <td class="timestamp">8:40 AM</td>
+              <td>Approach Km 83</td>
+              <td>TTE Surya Prakash locks both forward and rear vestibule doors of EV-1 for passenger safety.</td>
+            </tr>
+            <tr>
+              <td class="timestamp">8:42:00 AM</td>
+              <td>Tunnel 22 Portal</td>
+              <td>Train enters 2,750-meter Tunnel 22. Generator circuit breaker trips! Coach EV-1 is in pitch darkness.</td>
+            </tr>
+            <tr>
+              <td class="timestamp">8:43:15 AM</td>
+              <td>Inside Tunnel 22</td>
+              <td>Sound of sudden metallic click and brief scuffle heard near Seat 13/14 over the engine rumble.</td>
+            </tr>
+            <tr>
+              <td class="timestamp">8:44:20 AM</td>
+              <td>Inside Tunnel 22</td>
+              <td>Passenger in Seat 8 (Kishore Naidu) shouts: "Hey, someone just brushed past my shoulder!"</td>
+            </tr>
+            <tr>
+              <td class="timestamp">8:45:40 AM</td>
+              <td>Galikonda Bridge</td>
+              <td>Train bursts out of Tunnel 22 onto the viaduct bridge in bright mountain sunlight.</td>
+            </tr>
+            <tr>
+              <td class="timestamp">8:45:50 AM</td>
+              <td>Coach EV-1</td>
+              <td>Meera Sen screams. Bhadri Raju is discovered slumped dead in Seat 14 with dagger in chest!</td>
+            </tr>
+            <tr>
+              <td class="timestamp">8:50 AM</td>
+              <td>Borra Caves Station</td>
+              <td>Emergency brake engaged. Train halts at Borra Caves. Railway Police seal Coach EV-1.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: 5 FORENSIC CLUES ==================== -->
+    <div id="tab-clues" class="tab-content">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🔎 THE 5 CRITICAL TRAIN CLUES (CLICK TO INSPECT)</span>
+          </div>
+
+          <div class="clue-item" onclick="showClue('dagger')">
+            <div class="clue-title">CLUE 1: The Tribal Dagger & Angle of Entry</div>
+            <div class="clue-body">The dagger entered upward at 45 degrees into the 5th left intercostal space. Bhadri's seat was swiveled facing the right window. A standing assailant from the aisle could NOT have made that thrust without standing directly in the tight 14-inch gap between Seat 14 and the window wall!</div>
+          </div>
+
+          <div class="clue-item" onclick="showClue('moss')">
+            <div class="clue-title">CLUE 2: The Luminescent Cave Moss Traces</div>
+            <div class="clue-body">Forensic scraping of the floorboard by Seat 14 found *Dictyostelium viride*, a rare glowing moss that grows ONLY on the wet granite walls of Tunnel 22 and Borra Caves vents. Who had this damp moss on their clothing?</div>
+          </div>
+
+          <div class="clue-item" onclick="showClue('audio')">
+            <div class="clue-title">CLUE 3: Dr. Lavanya's Secret Voice Recording</div>
+            <div class="clue-body">Dr. Lavanya claimed her headphones were on. But her phone was secretly recording ambient sound! Audio analysis reveals soft footsteps counting in Telugu ("Okaటి, rendu, moodu...")—someone memorized the exact number of strides in the dark from the rear lounge to Seat 14!</div>
+          </div>
+
+          <div class="clue-item" onclick="showClue('emerald')">
+            <div class="clue-title">CLUE 4: The Water Dispenser Ice Flask</div>
+            <div class="clue-body">Where was the Kalinga Emerald hidden? Railway police searched every bag. Nothing. But when inspecting the lounge water dispenser, inside the ice reservoir, a sealed stainless steel thermos was submerged—housing the 120-carat Kalinga Emerald!</div>
+          </div>
+
+          <div class="clue-item" onclick="showClue('breaker')">
+            <div class="clue-title">CLUE 5: The Tripped Circuit Breaker</div>
+            <div class="clue-body">The electrical panel in the rear cubicle was inspected. The lighting fuse was not blown by a surge—it had been intentionally wedged open with an ordinary plastic coffee stirrer!</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">💡 DEDUCTION MATRIX (PEN & PAPER)</span>
+          </div>
+          <div style="font-size: 13.5px; line-height: 1.8; color: #1e293b;">
+            <p><strong>Connect the Dots on Your Notepad:</strong></p>
+            <ol style="margin-left: 20px; margin-top: 8px;">
+              <li><strong>The Darkness was Premeditated:</strong> The lighting breaker was manually wedged open with a coffee stirrer from the lounge. Who had access to the electrical cabinet?</li>
+              <li><strong>Navigation in Pitch Black:</strong> In 3 minutes and 40 seconds of absolute darkness, the killer counted strides ("Okaటి, rendu, moodu...") to reach Seat 14 without stumbling.</li>
+              <li><strong>The Physical Fit:</strong> To stab Bhadri from the window side, the killer had to slip into the narrow 14-inch gap between the seat and window. Vikram Varma is 6'2" and 95 kg—he physically cannot fit in that gap!</li>
+              <li><strong>The Emerald's Cache:</strong> Hidden in the ice flask inside the water dispenser at the rear lounge.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 4: INTERROGATION ROOM ==================== -->
+    <div id="tab-interrogate" class="tab-content">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🎙️ RAILWAY POLICE INTERROGATION: BORRA CAVES STATION</span>
+          </div>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+            <button class="tab-btn active" id="btn-vikram" onclick="selectSuspect('vikram')">Vikram Varma</button>
+            <button class="tab-btn" id="btn-lavanya" onclick="selectSuspect('lavanya')">Dr. Lavanya</button>
+            <button class="tab-btn" id="btn-kishore" onclick="selectSuspect('kishore')">Kishore Naidu</button>
+            <button class="tab-btn" id="btn-meera" onclick="selectSuspect('meera')">Meera Sen</button>
+            <button class="tab-btn" id="btn-tte" onclick="selectSuspect('tte')">TTE Surya Prakash</button>
+          </div>
+
+          <div id="interrogation-questions" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+
+        <div class="interrogation-console">
+          <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 10px; font-family: var(--font-mono); font-size: 12px; color: #b45309; font-weight: bold;">
+            AUDIO TRANSCRIPT // BORRA CAVES GRP DETENTION ROOM
+          </div>
+          <div class="console-history" id="chat-stream">
+            <div class="message msg-suspect">
+              <strong>Vikram Varma:</strong> "Officer, I'm Bhadri Raju's nephew. I loved my uncle! Why would I kill him in a locked train coach?!"
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 5: NOTEBOOK ==================== -->
+    <div id="tab-notes" class="tab-content">
+      <div class="grid-2">
+        <div class="card" style="border: 1px solid var(--accent-emerald);">
+          <div class="card-header">
+            <span class="card-title" style="color: var(--accent-emerald);">📖 DETECTIVE'S NOTEBOOK</span>
+            <span style="font-size: 11px; color: var(--accent-emerald); font-family: var(--font-mono); font-weight: bold;">AUTOSAVED</span>
+          </div>
+          <textarea id="case2-notes" class="case-notes" placeholder="Detective's Working Notes:
+- Train #18551 Vistadome Coach EV-1 locked by TTE.
+- Blackout duration: 3 mins 40 secs (8:42:00 AM - 8:45:40 AM).
+- Breaker wedged with plastic coffee stirrer -> premeditated!
+- Seat 14 swiveled toward window; gap is only 14 inches.
+- Footsteps audio: counting paces in Telugu.
+- Emerald found in lounge water dispenser ice flask.
+- Who fits in the narrow window gap? Who had the combination #914?"></textarea>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">💡 DEDUCTION CHECKLIST</span>
+          </div>
+          <div style="font-size: 13.5px; color: #1e293b; line-height: 1.8;">
+            <p><strong>To prove your indictment:</strong></p>
+            <ol style="margin-left: 20px; margin-top: 8px;">
+              <li><strong>The Murderer:</strong> Who knew the exact layout, swiveled the seat, and knew the briefcase code?</li>
+              <li><strong>The Weapon Delivery:</strong> How was the dagger delivered in the narrow 14-inch window gap?</li>
+              <li><strong>The Emerald Theft:</strong> Who stashed the thermos inside the water dispenser before the train exited the tunnel?</li>
+              <li><strong>The Red Herrings:</strong> Why did Kishore feel someone brush past him? Why was Vikram sweating?</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 6: CHARGESHEET ==================== -->
+    <div id="tab-chargesheet" class="tab-content">
+      <div class="card" style="border: 2px solid var(--accent-red); padding: 24px;">
+        <h2 style="font-family: var(--font-mono); font-size: 18px; color: #dc2626; margin-bottom: 8px;">
+          RAILWAY POLICE // FORM 108 INDICTMENT & CHARGESHEET
+        </h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">
+          Submit your chargesheet to the Visakhapatnam Railway Magistrate.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label">1. Primary Accused (Who Murdered Bhadri Raju?)</label>
+          <select id="warrant-killer" class="form-select">
+            <option value="">-- SELECT PRIMARY ACCUSED --</option>
+            <option value="vikram">Vikram Varma (Nephew - Seat 12)</option>
+            <option value="lavanya">Dr. Lavanya Chari (Activist - Seat 15)</option>
+            <option value="kishore">Kishore Naidu (Consortium Director - Seat 8)</option>
+            <option value="meera">Meera Sen (Secretary & Appraiser - Seat 13)</option>
+            <option value="tte">Surya Prakash (TTE / Attendant)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">2. Exact Execution Method & Blackout Mechanism</label>
+          <select id="warrant-method" class="form-select">
+            <option value="">-- SELECT METHOD --</option>
+            <option value="breaker_stealth">Wedged the electrical breaker with a coffee stirrer to cause the blackout, counted strides in Telugu to reach Seat 14, slipped into the narrow 14-inch window gap, stabbed Bhadri Raju, unlocked the briefcase with code #914, and stashed the emerald in the lounge water dispenser flask.</option>
+            <option value="thrown_dagger">Threw the tribal dagger from across the aisle in Seat 12 during the dark.</option>
+            <option value="poison_blade">Poisoned his morning tea before the train entered the tunnel.</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">3. The Decisive Contradiction / Physical Proof</label>
+          <select id="warrant-proof" class="form-select">
+            <option value="">-- SELECT THE DECISIVE PROOF --</option>
+            <option value="proof_physical_emerald">Meera Sen was the only person who knew code #914 and was slim enough to fit into the 14-inch window gap; her fingerprints were found on the submerged ice flask, and luminescent tunnel moss was recovered on her silk shawl.</option>
+            <option value="proof_vikram_debts">Vikram's gambling debts prove he must be the killer.</option>
+            <option value="proof_lavanya_audio">Dr. Lavanya's audio recorder proves she walked to the seat.</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">4. Explanation of the Other Suspects (Red Herrings)</label>
+          <select id="warrant-sub" class="form-select">
+            <option value="">-- SELECT RESOLUTION OF SUB-PLOTS --</option>
+            <option value="sub_independent">Vikram Varma tried to fumble toward Bhadri's seat in the dark to steal the forged will (brushing past Kishore Naidu at Seat 8), but found Bhadri already dead and fled back to his seat in horror; Dr. Lavanya was secretly recording to capture an illegal mining confession; TTE Surya Prakash was in the rear cubicle trying to fix the breaker.</option>
+            <option value="sub_conspiracy">All five passengers conspired together to share the emerald.</option>
+          </select>
+        </div>
+
+        <button class="btn-submit-warrant" onclick="submitCase2Warrant()">SUBMIT INDICTMENT TO RAILWAY MAGISTRATE</button>
+
+        <div id="verdict-result" class="verdict-box"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const seatData = {
+      seat14: {
+        title: "★ SEAT 14: Bhadri Raju (The Victim)",
+        desc: "Bhadri Raju, 62, coffee plantation magnate and bauxite leaseholder. Found in his rotating recliner seat, which had been turned 90 degrees facing the right window. Single stab wound under the 5th left rib from an antique Araku tribal dagger. Death was instantaneous.<br><br>• His titanium briefcase was on his lap, unlatched with the combination lock spun.<br>• The 120-carat 'Kalinga Emerald' was missing.<br>• A faint trace of green luminescent moss was found on the floorboard beneath his shoes."
+      },
+      seat13: {
+        title: "SEAT 13: Meera Sen (Secretary & Gem Appraiser)",
+        desc: "Meera Sen, 29. Sat next to Bhadri Raju. Claimed she froze in terror in her seat the entire 3 minutes and 40 seconds of darkness. However, only she knew the briefcase combination #914, and her petite frame easily slipped into the 14-inch window gap."
+      },
+      seat12: {
+        title: "SEAT 12: Vikram Varma (Nephew across aisle)",
+        desc: "Vikram Varma, 36. Owed ₹4 Crores in gambling debts. Admitted he stood up in the dark to grab his forged will from Bhadri's briefcase, but bumped into Kishore Naidu and found his uncle already dead!"
+      },
+      seat15: {
+        title: "SEAT 15: Dr. Lavanya Chari (Behind victim)",
+        desc: "Dr. Lavanya Chari, 44. Tribal activist. Her secret voice recorder captured the ambient audio of the tunnel, including the killer's whispered stride count in Telugu."
+      },
+      seat8: {
+        title: "SEAT 8: Kishore Naidu (Coffee Consortium Director)",
+        desc: "Kishore Naidu, 51. Sat in the front row. Shouted at 8:44:20 AM when someone brushed past him in the dark (which was Vikram fumbling in panic)."
+      },
+      tte: {
+        title: "TTE SERVICE CUBICLE: Surya Prakash",
+        desc: "Surya Prakash, 58. Locked both coach doors at 8:40 AM. When the lights tripped at 8:42 AM, he was in the electrical cubicle trying to un-wedge the breaker."
+      },
+      dispenser: {
+        title: "OBSERVATION LOUNGE WATER DISPENSER",
+        desc: "Located at the rear of Coach EV-1. Inside the chilled ice tank, an airtight thermos was submerged containing the stolen 120-carat Kalinga Emerald!"
+      }
+    };
+
+    function selectSeat(key) {
+      const data = seatData[key];
+      document.getElementById('seat-intel').innerHTML = `
+        <strong style="color: var(--accent-emerald); font-size: 15px;">${data.title}:</strong><br>
+        <p style="margin-top: 6px;">${data.desc}</p>
+      `;
+    }
+
+    function showClue(type) {
+      const clues = {
+        dagger: "CLUE 1: The tribal dagger was thrust from the window gap side, requiring an attacker with a slim profile (under 55 kg) to stand in the 14-inch gap. Vikram (95 kg) could not fit!",
+        moss: "CLUE 2: The luminescent cave moss (*Dictyostelium viride*) on the floorboard matches residue found on Meera Sen's silk shawl hem, which brushed against the ventilation duct by the window!",
+        audio: "CLUE 3: Dr. Lavanya's recording caught a female voice softly counting strides in Telugu ('Okaటి, rendu, moodu...') pacing from the rear lounge to Seat 14!",
+        emerald: "CLUE 4: The 120-carat Kalinga Emerald in the thermos had Meera Sen's clear right thumbprint on the screw-cap!",
+        breaker: "CLUE 5: The electrical breaker was wedged open with a coffee stirrer carrying Meera Sen's crimson lipstick shade!"
+      };
+      alert(clues[type]);
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
+
+      const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+      if (btn) btn.classList.add('active');
+    }
+
+    let currentSuspect = 'vikram';
+    const dialogueData = {
+      vikram: {
+        name: "Vikram Varma",
+        questions: [
+          {
+            q: "Investigator: 'Why were you out of your seat during the blackout?'",
+            a: "Vikram: 'Fine! I admit it! My uncle had the forged land papers in his coat pocket. When the lights went out, I stood up and fumbled across the aisle to snatch the papers back. But in the pitch dark, I lost my orientation, bumped into Kishore Naidu at Seat 8, and when I finally reached Seat 14, my hand touched something sticky and warm—it was blood! Uncle was already dead! I freaked out and scrambled back to my seat!'"
+          }
+        ]
+      },
+      lavanya: {
+        name: "Dr. Lavanya Chari",
+        questions: [
+          {
+            q: "Investigator: 'Why was your voice recorder running in your handbag?'",
+            a: "Dr. Lavanya: 'I wanted to record Bhadri Raju admitting to the illegal mining expansion in Araku. When the lights went out, my recorder kept running. Listen to the tape! You can hear someone counting paces in Telugu from the rear lounge!'"
+          }
+        ]
+      },
+      kishore: {
+        name: "Kishore Naidu",
+        questions: [
+          {
+            q: "Investigator: 'Who brushed past your shoulder at 8:44 AM?'",
+            a: "Kishore: 'It was someone tall and heavy—it felt like Vikram Varma panicking in the aisle!'"
+          }
+        ]
+      },
+      meera: {
+        name: "Meera Sen",
+        questions: [
+          {
+            q: "Investigator: 'Did you leave your seat at all during the tunnel run?'",
+            a: "Meera: (Nervous, adjustments to shawl). 'No! I was terrified of the dark. I held onto my armrest until the train came out into the light. I never touched the briefcase!'"
+          },
+          {
+            q: "Investigator: 'How do you explain your crimson lipstick on the breaker coffee stirrer and your thumbprint on the emerald thermos?'",
+            a: "Meera: (Freezes, tears well up, silence)..."
+          }
+        ]
+      },
+      tte: {
+        name: "Surya Prakash (TTE)",
+        questions: [
+          {
+            q: "Investigator: 'Were both doors locked the entire time?'",
+            a: "TTE: 'Yes, Inspector! Both vestibule doors were locked with my brass key at 8:40 AM. Nobody came into Coach EV-1 from the other coaches. The killer was 100% inside this coach!'"
+          }
+        ]
+      }
+    };
+
+    function selectSuspect(key) {
+      currentSuspect = key;
+      renderQuestions();
+    }
+
+    function renderQuestions() {
+      const box = document.getElementById('interrogation-questions');
+      box.innerHTML = '';
+      const suspect = dialogueData[currentSuspect];
+      suspect.questions.forEach(q => {
+        const btn = document.createElement('button');
+        btn.className = 'question-btn';
+        btn.innerHTML = '❓ ' + q.q;
+        btn.onclick = () => askQuestion(q.q, q.a);
+        box.appendChild(btn);
+      });
+    }
+
+    function askQuestion(qText, aText) {
+      const stream = document.getElementById('chat-stream');
+      const qDiv = document.createElement('div');
+      qDiv.className = 'message msg-investigator';
+      qDiv.innerHTML = qText;
+      stream.appendChild(qDiv);
+
+      setTimeout(() => {
+        const aDiv = document.createElement('div');
+        aDiv.className = 'message msg-suspect';
+        aDiv.innerHTML = aText;
+        stream.appendChild(aDiv);
+        stream.scrollTop = stream.scrollHeight;
+      }, 200);
+    }
+
+    const noteArea = document.getElementById('case2-notes');
+    noteArea.value = localStorage.getItem('case2_notes') || '';
+    noteArea.addEventListener('input', () => {
+      localStorage.setItem('case2_notes', noteArea.value);
+    });
+
+    renderQuestions();
+
+    function submitCase2Warrant() {
+      const killer = document.getElementById('warrant-killer').value;
+      const method = document.getElementById('warrant-method').value;
+      const proof = document.getElementById('warrant-proof').value;
+      const sub = document.getElementById('warrant-sub').value;
+
+      const verdict = document.getElementById('verdict-result');
+      verdict.style.display = 'block';
+
+      const isCorrect = (
+        killer === 'meera' &&
+        method === 'breaker_stealth' &&
+        proof === 'proof_physical_emerald' &&
+        sub === 'sub_independent'
+      );
+
+      if (isCorrect) {
+        verdict.className = 'verdict-box success';
+        verdict.innerHTML = `
+          <h2 style="font-family: var(--font-mono); font-size: 18px; margin-bottom: 10px;">
+            🎉 BRILLIANT DEDUCTION, DETECTIVE! CASE #VIZ-410 SOLVED!
+          </h2>
+          <p style="font-size: 14px; line-height: 1.6;">
+            <strong>THE GHOST IN TUNNEL 22 UNMASKED!</strong> The Railway Magistrate signed the arrest warrant:
+          </p>
+          <ul style="font-size: 13px; line-height: 1.7; margin: 12px 0 12px 20px;">
+            <li><strong>The Murderer:</strong> Meera Sen plotted the heist to steal the ₹30 Crore Kalinga Emerald and disappear at Borra Caves.</li>
+            <li><strong>The Premeditation:</strong> Right before entering Tunnel 22, Meera visited the rear lounge, wedged the lighting breaker open with a coffee stirrer (marked with her lipstick), and memorized the stride count in the dark.</li>
+            <li><strong>The Execution:</strong> During the 3m 40s blackout, she slipped into the 14-inch window gap, stabbed Bhadri Raju, opened the safe with code #914, took the emerald, dropped it into the thermos in the water dispenser, and resumed her seat before the train hit daylight!</li>
+            <li><strong>The Sub-Plots:</strong> Vikram Varma fumbled in the dark to steal his forged will (bumping into Kishore Naidu), but found his uncle already murdered; Dr. Lavanya's audio tape provided the decisive acoustic proof!</li>
+          </ul>
+          <p style="font-weight: bold; font-family: var(--font-mono);">
+            CASE #VIZ-410 CLOSED // MEERA SEN CONVICTED OF FIRST-DEGREE MURDER & ARMED ROBBERY!
+          </p>
+        `;
+      } else {
+        verdict.className = 'verdict-box failure';
+        verdict.innerHTML = `
+          <h2 style="font-family: var(--font-mono); font-size: 18px; margin-bottom: 10px;">
+            ❌ INDICTMENT REJECTED BY RAILWAY MAGISTRATE
+          </h2>
+          <p style="font-size: 13px;">
+            Detective, check your case notes:
+          </p>
+          <ul style="font-size: 12px; margin: 8px 0 8px 20px; line-height: 1.6;">
+            ${killer !== 'meera' ? "<li><strong>Suspect:</strong> Look at who physically fits into the 14-inch window gap and who knew briefcase code #914.</li>" : "<li>✓ Correct Accused Identified (Meera Sen).</li>"}
+            ${method !== 'breaker_stealth' ? "<li><strong>Method:</strong> Review Clue 5 regarding the plastic coffee stirrer wedged in the breaker.</li>" : "<li>✓ Correct Method Identified.</li>"}
+            ${proof !== 'proof_physical_emerald' ? "<li><strong>Proof:</strong> Review Clue 4 regarding the submerged thermos and fingerprint evidence.</li>" : "<li>✓ Correct Decisive Proof.</li>"}
+            ${sub !== 'sub_independent' ? "<li><strong>Sub-Plots:</strong> The actions of Vikram and Dr. Lavanya were independent acts.</li>" : "<li>✓ Correct Sub-Plot Explanation.</li>"}
+          </ul>
+        `;
+      }
+      verdict.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
