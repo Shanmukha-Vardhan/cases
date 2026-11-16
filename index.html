@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE GITAM UNIVERSITY MURDER // HOMICIDE CASE #VIZ-309</title>
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #cbd5e1;
+      --accent-red: #dc2626;
+      --accent-blue: #1d4ed8;
+      --accent-teal: #0f766e;
+      --accent-pink: #be185d;
+      --accent-amber: #b45309;
+      --font-mono: 'SF Mono', 'Courier New', Courier, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Top Police Header */
+    header {
+      background: #ffffff;
+      border-bottom: 2px solid var(--accent-red);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+
+    .badge-police {
+      background: var(--accent-red);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      font-family: var(--font-mono);
+      display: inline-block;
+    }
+
+    .badge-dossier {
+      background: var(--accent-pink);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      font-family: var(--font-mono);
+      display: inline-block;
+      margin-left: 6px;
+    }
+
+    .header-title h1 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #0f172a;
+      margin-top: 3px;
+    }
+
+    .header-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    /* Navigation Tabs */
+    nav.day-tabs {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      overflow-x: auto;
+      padding: 0 20px;
+      gap: 4px;
+      position: sticky;
+      top: 67px;
+      z-index: 90;
+    }
+
+    .day-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 13px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .day-btn:hover {
+      color: var(--text-main);
+      background: #f1f5f9;
+    }
+
+    .day-btn.active {
+      color: var(--accent-red);
+      border-bottom-color: var(--accent-red);
+      background: #fef2f2;
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1380px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px 60px 20px;
+    }
+
+    /* Tab Content - CRITICAL DISPLAY RULE */
+    .tab-content {
+      display: none !important;
+    }
+
+    .tab-content.active {
+      display: block !important;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grids & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 1020px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 22px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .card-header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Dialogue box */
+    .dialogue-box {
+      background: #ffffff;
+      border: 1px solid #fbcfe8;
+      border-left: 5px solid var(--accent-pink);
+      padding: 16px 20px;
+      border-radius: 6px;
+      margin-bottom: 22px;
+      font-size: 14px;
+      line-height: 1.6;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .speaker-s { color: var(--accent-blue); font-weight: 700; font-family: var(--font-mono); }
+    .speaker-j { color: var(--accent-pink); font-weight: 700; font-family: var(--font-mono); }
+
+    /* Paper Document */
+    .dossier-paper {
+      background: #ffffff;
+      color: #0f172a;
+      padding: 24px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      font-family: var(--font-mono);
+      position: relative;
+      border: 1px solid var(--border-color);
+      border-left: 5px solid var(--accent-red);
+    }
+    .dossier-paper h2 {
+      font-size: 17px;
+      color: #991b1b;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 6px;
+    }
+    .dossier-paper p, .dossier-paper li {
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    /* Clean Map View */
+    .map-wrapper {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .vizag-svg-map {
+      width: 100%;
+      height: 520px;
+      display: block;
+      border-radius: 6px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .map-pin-btn {
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .map-pin-btn:hover {
+      transform: scale(1.15);
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+    }
+
+    /* Clues & Suspects */
+    .clue-item {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-blue);
+      border-radius: 6px;
+      padding: 14px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .clue-item:hover {
+      border-color: var(--accent-blue);
+      background: #f8fafc;
+      transform: translateX(4px);
+    }
+    .clue-title { font-weight: 700; font-size: 13.5px; color: #0f172a; margin-bottom: 4px; }
+    .clue-body { font-size: 12.5px; color: #475569; line-height: 1.5; }
+
+    /* Tables */
+    .log-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+    }
+    .log-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      text-align: left;
+      padding: 10px;
+      border-bottom: 2px solid var(--border-color);
+      font-weight: 700;
+    }
+    .log-table td {
+      padding: 10px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+      color: #1e293b;
+    }
+    .log-table tr:hover { background: #f8fafc; }
+    .timestamp { color: var(--accent-blue); font-weight: 700; white-space: nowrap; }
+
+    /* Interrogation Console */
+    .interrogation-console {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 16px;
+      height: 480px;
+      display: flex;
+      flex-direction: column;
+    }
+    .console-history {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 8px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .message {
+      padding: 11px 15px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      max-width: 85%;
+    }
+    .msg-investigator {
+      align-self: flex-end;
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+    .msg-suspect {
+      align-self: flex-start;
+      background: #f1f5f9;
+      color: #0f172a;
+      border-left: 4px solid var(--accent-amber);
+    }
+    .question-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      color: #0f172a;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 12.5px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .question-btn:hover {
+      background: #f8fafc;
+      border-color: var(--accent-blue);
+      transform: translateX(3px);
+    }
+
+    /* Detective's Notes */
+    .case-notes {
+      width: 100%;
+      height: 330px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      color: #0f172a;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: 14px;
+      border-radius: 4px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    /* Chargesheet Form */
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .form-select {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      color: #0f172a;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: 10px 12px;
+      border-radius: 4px;
+    }
+    .btn-submit-warrant {
+      background: var(--accent-red);
+      color: #ffffff;
+      border: none;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s;
+    }
+    .btn-submit-warrant:hover {
+      background: #b91c1c;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+    }
+    .verdict-box {
+      display: none;
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: 6px;
+    }
+    .verdict-box.success {
+      background: #ecfdf5;
+      border: 2px solid #10b981;
+      color: #065f46;
+    }
+    .verdict-box.failure {
+      background: #fef2f2;
+      border: 2px solid #ef4444;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Police Bar -->
+  <header>
+    <div class="header-title">
+      <div>
+        <span class="badge-police">VIZAG POLICE // HOMICIDE</span>
+        <span class="badge-dossier">CASE DOSSIER</span>
+      </div>
+      <h1>THE GITAM UNIVERSITY MURDER // CASE FILE #VIZ-309</h1>
+    </div>
+
+    <div class="header-meta">
+      LOCATION: VISAKHAPATNAM (VIZAG)<br>
+      STATUS: ACTIVE HOMICIDE DOSSIER
+    </div>
+  </header>
+
+  <!-- Navigation Bar -->
+  <nav class="day-tabs">
+    <button class="day-btn active" onclick="switchTab('map')">🗺️ VIZAG CITY & GITAM MAP</button>
+    <button class="day-btn" onclick="switchTab('day1')">🗓️ DAY 1: CASE BRIEFING</button>
+    <button class="day-btn" onclick="switchTab('day2')">🗓️ DAY 2: AUTOPSY & TOLL TIMELINE</button>
+    <button class="day-btn" onclick="switchTab('day3')">🗓️ DAY 3: THE 5 HIDDEN CLUES</button>
+    <button class="day-btn" onclick="switchTab('day4')">🎙️ DAY 4: INTERROGATION ROOM</button>
+    <button class="day-btn" onclick="switchTab('notes')" style="color: var(--accent-pink);">📝 DETECTIVE'S NOTEBOOK</button>
+    <button class="day-btn" onclick="switchTab('chargesheet')" style="color: var(--accent-red);">⚖️ FILE FINAL CHARGESHEET</button>
+  </nav>
+
+  <!-- Main Container -->
+  <main>
+
+    <!-- ==================== TAB 0: VIZAG & GITAM MAP ==================== -->
+    <div id="tab-map" class="tab-content active">
+      <div class="dialogue-box">
+        <p><strong style="color: var(--accent-blue); font-family: var(--font-mono);">INVESTIGATOR'S MAP BRIEFING:</strong> The murder took place at GITAM University at Rushikonda Beach along the scenic coastal Beach Road. Study the spatial relationship between the crime scene at GITAM, the inland NH-16 Anandapuram Highway Toll Plaza, and the city center at Siripuram. Click any location pin below to inspect forensic findings.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="map-wrapper">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <strong style="color: #0f172a; font-family: var(--font-mono); font-size: 13px;">VISAKHAPATNAM (VIZAG) POLICE JURISDICTION MAP</strong>
+              <div style="font-size: 11px; color: var(--text-muted);">ACCURATE COASTAL GEOGRAPHY // GITAM UNIVERSITY // TOLLS & HARBOUR</div>
+            </div>
+            <span style="font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; font-family: var(--font-mono); font-weight: bold;">CLICK PINS TO INSPECT</span>
+          </div>
+
+          <!-- Crisp, High-Contrast Light Cartographic SVG Map -->
+          <svg class="vizag-svg-map" viewBox="0 0 760 520">
+            <!-- 1. LAND MASS (Visakhapatnam Land) -->
+            <path d="M 0,0 L 520,0 
+                     C 510,40 500,70 515,100 
+                     C 530,125 540,150 515,185 
+                     C 490,215 480,240 460,265 
+                     C 440,290 420,310 405,335 
+                     C 390,360 380,380 375,410 
+                     C 365,420 340,425 340,440 
+                     C 350,445 420,445 425,475 
+                     C 430,500 370,520 340,520 
+                     L 0,520 Z" 
+                  fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/>
+
+            <!-- 2. BAY OF BENGAL OCEAN -->
+            <path d="M 520,0 
+                     C 510,40 500,70 515,100 
+                     C 530,125 540,150 515,185 
+                     C 490,215 480,240 460,265 
+                     C 440,290 420,310 405,335 
+                     C 390,360 380,380 375,410 
+                     C 365,420 340,425 340,440 
+                     C 350,445 420,445 425,475 
+                     C 430,500 370,520 340,520 
+                     L 760,520 L 760,0 Z" 
+                  fill="#e0f2fe"/>
+
+            <!-- Shoreline Line -->
+            <path d="M 520,0 
+                     C 510,40 500,70 515,100 
+                     C 530,125 540,150 515,185 
+                     C 490,215 480,240 460,265 
+                     C 440,290 420,310 405,335 
+                     C 390,360 380,380 375,410 
+                     C 365,420 340,425 340,440 
+                     C 350,445 420,445 425,475 
+                     C 430,500 370,520 340,520" 
+                  fill="none" stroke="#0284c7" stroke-width="2.5"/>
+
+            <!-- Kailasagiri Hill -->
+            <ellipse cx="440" cy="275" rx="36" ry="18" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+            <text x="412" y="278" fill="#475569" font-size="9" font-family="monospace" font-weight="bold">KAILASAGIRI</text>
+
+            <!-- Dolphin's Nose Headland -->
+            <path d="M 345,435 C 380,440 425,450 425,475 C 420,495 385,505 345,495 Z" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+            <text x="350" y="475" fill="#991b1b" font-size="10" font-family="monospace" font-weight="bold">DOLPHIN'S NOSE</text>
+
+            <!-- Kambalakonda Forest -->
+            <ellipse cx="230" cy="180" rx="60" ry="28" fill="#e2e8f0" stroke="#cbd5e1" stroke-dasharray="3,3"/>
+            <text x="180" y="183" fill="#64748b" font-size="9" font-family="monospace">KAMBALAKONDA SANCTUARY</text>
+
+            <!-- ROADS -->
+            <!-- NH-16 (National Highway) -->
+            <path d="M 80,520 L 140,410 L 190,320 L 230,240 L 250,150 L 260,60 L 260,0" fill="none" stroke="#475569" stroke-width="4"/>
+            <text x="215" y="25" fill="#334155" font-size="9" font-family="monospace" font-weight="bold" transform="rotate(-75 220,40)">NH-16 HIGHWAY BYPASS</text>
+
+            <!-- Bheemili Beach Road (Passing GITAM) -->
+            <path d="M 370,410 
+                     C 375,370 395,340 410,320 
+                     C 430,295 445,260 470,230 
+                     C 495,200 500,165 520,135 
+                     C 528,115 505,80 510,0" 
+                  fill="none" stroke="#d97706" stroke-width="3.5"/>
+            <text x="515" y="55" fill="#b45309" font-size="9" font-family="monospace" font-weight="bold" transform="rotate(75 515,55)">BEACH ROAD (TO BHEEMILI)</text>
+
+            <!-- Anandapuram - GITAM Link Road -->
+            <path d="M 260,60 Q 380,50 515,100" fill="none" stroke="#b45309" stroke-width="2.5" stroke-dasharray="4,3"/>
+            <text x="310" y="60" fill="#b45309" font-size="9" font-family="monospace">ANANDAPURAM - GITAM ROAD</text>
+
+            <!-- City Links -->
+            <path d="M 230,240 L 440,250" fill="none" stroke="#94a3b8" stroke-width="2"/>
+            <path d="M 190,320 L 330,340 L 400,345" fill="none" stroke="#94a3b8" stroke-width="2"/>
+
+            <!-- Ocean Label -->
+            <text x="575" y="240" fill="#0284c7" font-size="16" font-family="monospace" font-weight="bold" letter-spacing="4">BAY OF BENGAL</text>
+            <text x="590" y="260" fill="#0369a1" font-size="11" font-family="monospace">(EAST COAST OF INDIA)</text>
+
+            <!-- North Arrow Compass -->
+            <g transform="translate(700, 60)">
+              <circle cx="0" cy="0" r="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+              <path d="M 0,-16 L 5,0 L 0,3 L -5,0 Z" fill="#dc2626"/>
+              <path d="M 0,16 L 5,0 L 0,-3 L -5,0 Z" fill="#64748b"/>
+              <text x="-4" y="-19" fill="#dc2626" font-size="11" font-family="monospace" font-weight="bold">N</text>
+            </g>
+
+            <!-- PINS ON MAP -->
+            <!-- PIN 1: GITAM UNIVERSITY (THE CRIME SCENE) -->
+            <g class="map-pin-btn" onclick="selectMapPoint('gitam')">
+              <circle cx="512" cy="115" r="14" fill="#fecaca" stroke="#dc2626" stroke-width="2"/>
+              <circle cx="512" cy="115" r="6" fill="#dc2626"/>
+              <rect x="532" y="103" width="200" height="24" rx="4" fill="#ffffff" stroke="#dc2626" stroke-width="1.5"/>
+              <text x="538" y="119" fill="#991b1b" font-size="11" font-family="sans-serif" font-weight="bold">★ 1. GITAM UNIVERSITY (Scene)</text>
+            </g>
+
+            <!-- PIN 2: ANANDAPURAM HIGHWAY TOLL PLAZA -->
+            <g class="map-pin-btn" onclick="selectMapPoint('anandapuram')">
+              <circle cx="260" cy="60" r="12" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+              <circle cx="260" cy="60" r="5" fill="#d97706"/>
+              <rect x="50" y="48" width="195" height="24" rx="4" fill="#ffffff" stroke="#d97706" stroke-width="1.5"/>
+              <text x="56" y="64" fill="#b45309" font-size="10.5" font-family="sans-serif" font-weight="bold">2. ANANDAPURAM TOLL PLAZA</text>
+            </g>
+
+            <!-- PIN 3: MVP COLONY 24/7 PHARMACY -->
+            <g class="map-pin-btn" onclick="selectMapPoint('mvp')">
+              <circle cx="420" cy="275" r="12" fill="#ccfbf1" stroke="#0f766e" stroke-width="2"/>
+              <circle cx="420" cy="275" r="5" fill="#0f766e"/>
+              <rect x="250" y="275" width="155" height="22" rx="3" fill="#ffffff" stroke="#0f766e"/>
+              <text x="256" y="290" fill="#0f766e" font-size="10" font-family="sans-serif" font-weight="bold">3. MVP COLONY PHARMACY</text>
+            </g>
+
+            <!-- PIN 4: SIRIPURAM & WALTAIR UPLANDS -->
+            <g class="map-pin-btn" onclick="selectMapPoint('siripuram')">
+              <circle cx="340" cy="340" r="12" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+              <circle cx="340" cy="340" r="5" fill="#0284c7"/>
+              <rect x="150" y="335" width="175" height="22" rx="3" fill="#ffffff" stroke="#0284c7"/>
+              <text x="156" y="350" fill="#0369a1" font-size="10" font-family="sans-serif" font-weight="bold">4. SIRIPURAM (Arjun's Alibi)</text>
+            </g>
+
+            <!-- PIN 5: RK BEACH PROMENADE -->
+            <g class="map-pin-btn" onclick="selectMapPoint('rkbeach')">
+              <circle cx="385" cy="370" r="5" fill="#7c3aed"/>
+              <text x="398" y="374" fill="#6d28d9" font-size="10" font-family="sans-serif">5. RK Beach Promenade</text>
+            </g>
+
+            <!-- PIN 6: DOLPHIN'S NOSE LIGHTHOUSE / VIZAG PORT -->
+            <g class="map-pin-btn" onclick="selectMapPoint('port')">
+              <circle cx="410" cy="465" r="13" fill="#ffe4e6" stroke="#e11d48" stroke-width="2"/>
+              <circle cx="410" cy="465" r="5.5" fill="#e11d48"/>
+              <rect x="430" y="455" width="180" height="24" rx="4" fill="#ffffff" stroke="#e11d48"/>
+              <text x="436" y="471" fill="#be123c" font-size="10.5" font-family="sans-serif" font-weight="bold">6. DOLPHIN'S NOSE FOGHORN</text>
+            </g>
+
+            <!-- HARBOUR -->
+            <rect x="290" y="420" width="45" height="15" fill="#bae6fd" stroke="#0284c7"/>
+            <text x="240" y="432" fill="#475569" font-size="8.5" font-family="monospace">VIZAG PORT HARBOUR</text>
+          </svg>
+        </div>
+
+        <!-- Location Sidebar Intel Card -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📍 LOCATION INTEL FILE</span>
+            <span style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">CLICK PINS ON MAP</span>
+          </div>
+
+          <div id="map-intel-box" style="font-size: 13.5px; line-height: 1.7; color: #1e293b;">
+            <strong style="color: #dc2626; font-size: 16px;">★ 1. GITAM University Campus, Rushikonda (The Crime Scene)</strong>
+            <p style="margin-top: 6px;">
+              Located on the Rushikonda beachfront along the Beach Road in Vizag. Raghavendra Varma was found dead in Executive Suite 501 on the top floor of the Innovation Tower at 11:45 PM.
+            </p>
+            <ul style="margin: 8px 0 8px 18px; font-size: 12.5px; color: #475569;">
+              <li>Spilled artisan copper mug of Kashmiri Kahwa tea on the floor.</li>
+              <li>Wall safe behind the ship painting was unlocked using PIN #808 (Patent deeds stolen).</li>
+              <li>Sliding ocean-view balcony door left 4 inches unlatched in the storm.</li>
+              <li>GITAM Main Gate logged Dr. Ram leaving at 10:29 PM; rear beach fence showed a wet footprint at 11:14 PM!</li>
+            </ul>
+          </div>
+
+          <div style="margin-top: 18px; padding: 14px; background: #fffbeb; border: 1px solid #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;">
+            <strong style="color: #b45309; font-size: 12px; font-family: var(--font-mono);">CRITICAL MAP OBSERVATION:</strong>
+            <p style="font-size: 12.5px; color: #451a03; margin-top: 4px;">
+              "Notice the route: GITAM is right by the sea. If Dr. Ram left at 10:29 PM and his FASTag swiped at Anandapuram Toll at 10:46 PM, that's exactly 17 minutes of driving. But then he made a U-turn and came straight back to GITAM!"
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 1: DAY 1 BRIEFING ==================== -->
+    <div id="tab-day1" class="tab-content">
+      <div class="dialogue-box">
+        <p><strong style="color: var(--accent-blue); font-family: var(--font-mono);">DAY 1 INCIDENT LOG:</strong> First responders secured the crime scene at GITAM University Innovation Tower. Raghavendra Varma, CMD of Varma BioTech and Chief Patron of GITAM, was found dead at his desk. Grab a notepad to log initial findings, suspect statements, and crime scene anomalies.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="dossier-paper">
+          <h2>VIZAG POLICE INCIDENT REPORT (FIR #VIZ-309)</h2>
+          <p><strong>Victim:</strong> Raghavendra "Raghav" Varma (Age 56, Chief Patron & Chancellor, net worth ~₹450 Crores).</p>
+          <p><strong>Crime Scene:</strong> Executive Suite 501, Innovation Tower, GITAM University, Rushikonda, Vizag.</p>
+          <p><strong>Found Dead:</strong> Sunday Night (Nov 15), at 11:45 PM by his executive assistant Kavya Reddy.</p>
+          <p><strong>Weather:</strong> Heavy coastal rainstorm and 55 km/h winds lashed GITAM campus from 9:15 PM to 11:30 PM.</p>
+          <p><strong>The Scene:</strong></p>
+          <ul style="margin-left: 20px;">
+            <li>Raghav was found slumped forward across his teakwood desk.</li>
+            <li>A copper artisan mug of spiced Kashmiri Kahwa tea was spilled onto the Persian floor rug.</li>
+            <li>The ocean-facing balcony glass sliding doors were unlatched and left 4 inches open to the storm.</li>
+            <li>The wall safe behind the ship painting was unlocked using PIN #808; the master patent folder was missing.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">👥 THE 4 SUSPECTS AT GITAM THAT EVENING</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="clue-item">
+              <div class="clue-title">1. Sree Nidhi Varma (49) — Wife & Trustee</div>
+              <div class="clue-body">Staying at the GITAM VIP Faculty Guest House across the campus garden. Fighting over a ₹120 Crore property and trust settlement in Vizag.</div>
+            </div>
+
+            <div class="clue-item">
+              <div class="clue-title">2. Dr. Ram Prasad (53) — Dean of Clinical Research (GIMSR)</div>
+              <div class="clue-body">Director of medical trials at GIMSR hospital next to GITAM. Raghav discovered Dr. Ram siphoned ₹18.4 Crores of institutional funds to shell companies.</div>
+            </div>
+
+            <div class="clue-item">
+              <div class="clue-title">3. Arjun Rao (37) — Chief Technical Lead, GITAM Biotech Lab</div>
+              <div class="clue-body">Lead architect of the vaccine patent. Raghav was planning to sell their patent unilaterally to an overseas buyer on Monday.</div>
+            </div>
+
+            <div class="clue-item">
+              <div class="clue-title">4. Kavya Reddy (28) — Executive Assistant to Chancellor</div>
+              <div class="clue-body">Served the tea water at 10:05 PM. Left GITAM at 10:36 PM to buy medicine at MVP Colony Apollo Pharmacy, returning at 11:42 PM.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2: DAY 2 AUTOPSY & TOLL LOGS ==================== -->
+    <div id="tab-day2" class="tab-content">
+      <div class="dialogue-box">
+        <p><strong style="color: var(--accent-blue); font-family: var(--font-mono);">DAY 2 FORENSIC ANALYSIS:</strong> King George Hospital (KGH) autopsy confirmed lethal aconitine poisoning, with fatal cardiac collapse occurring 25 to 35 minutes post-ingestion. Correlate this pharmacokinetic curve with the electronic FASTag logs from Anandapuram Toll and the GITAM campus gates.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🧪 KGH VIZAG FORENSIC LAB REPORT</span>
+          </div>
+          <div style="font-size: 13.5px; line-height: 1.7; color: #1e293b;">
+            <p><strong>Examining Surgeon:</strong> Dr. K. Radhakrishna, King George Hospital (KGH), Vizag.</p>
+            <p><strong>Cause of Death:</strong> Acute heart failure triggered by lethal <strong>Aconitine</strong> poison.</p>
+            <p><strong>Delivery Method:</strong> Swallowed inside hot spiced Kashmiri Kahwa tea.</p>
+            <p><strong>Time Needed to Kill:</strong> Exactly <strong>25 to 35 minutes</strong> after drinking.</p>
+            <p><strong>How the Taste Was Hidden:</strong> Aconitine is bitter and burning. The killer mixed it with <em>sweet Araku wild forest honey and lavender oil</em> to completely mask the taste!</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🚗 GITAM GATES & ANANDAPURAM TOLL TIMELINES</span>
+          </div>
+          <table class="log-table">
+            <thead>
+              <tr>
+                <th>TIME</th>
+                <th>LOCATION</th>
+                <th>WHAT HAPPENED</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="timestamp">10:05 PM</td>
+                <td>GITAM Suite 501</td>
+                <td>Kavya brings hot water kettle and tea spice box. Exits at 10:08 PM.</td>
+              </tr>
+              <tr>
+                <td class="timestamp">10:15 PM</td>
+                <td>GITAM Suite 501</td>
+                <td>Dr. Ram enters Raghav's office. Angry argument about audit papers.</td>
+              </tr>
+              <tr>
+                <td class="timestamp">10:26 PM</td>
+                <td>GITAM Suite 501</td>
+                <td>Dr. Ram leaves office, carrying his leather bag.</td>
+              </tr>
+              <tr>
+                <td class="timestamp">10:29 PM</td>
+                <td>GITAM Main Gate</td>
+                <td>Dr. Ram drives his White Fortuner out toward Bheemili.</td>
+              </tr>
+              <tr>
+                <td class="timestamp">10:36 PM</td>
+                <td>GITAM Main Gate</td>
+                <td>Kavya leaves for MVP Colony 24/7 Apollo Pharmacy.</td>
+              </tr>
+              <tr>
+                <td class="timestamp">10:46 PM</td>
+                <td>Anandapuram Toll</td>
+                <td><strong style="color: #dc2626;">ANOMALY:</strong> Dr. Ram's car triggers the FASTag U-turn loop, speeding back toward GITAM!</td>
+              </tr>
+              <tr>
+                <td class="timestamp">10:50 PM</td>
+                <td>GITAM Suite 501</td>
+                <td>Safe opened using PIN #808. Patent binder taken.</td>
+              </tr>
+              <tr>
+                <td class="timestamp">10:56 PM</td>
+                <td>MVP Colony Apollo</td>
+                <td>Kavya pays for migraine medicine (receipt verified).</td>
+              </tr>
+              <tr>
+                <td class="timestamp">11:14 PM</td>
+                <td>GITAM Beach Fence</td>
+                <td>Man in dark coat spotted slipping through GITAM rear beach fence on foot.</td>
+              </tr>
+              <tr>
+                <td class="timestamp">11:42 PM</td>
+                <td>GITAM Main Gate</td>
+                <td>Kavya returns; discovers body at 11:45 PM.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: DAY 3 HIDDEN CLUES ==================== -->
+    <div id="tab-day3" class="tab-content">
+      <div class="dialogue-box">
+        <p><strong style="color: var(--accent-blue); font-family: var(--font-mono);">DAY 3 FORENSIC CLUES:</strong> Physical and digital evidence has been processed by the Vizag cyber and ballistics teams. Examine all five hidden clues below to isolate contradictions in the suspects' claims.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🔎 THE 5 HIDDEN CLUES (CLICK TO READ)</span>
+          </div>
+
+          <div class="clue-item" onclick="showClue('honey')">
+            <div class="clue-title">CLUE A: The Araku Wild Forest Honey Jar & Dropper</div>
+            <div class="clue-body">Found on Raghav's credenza in his GITAM suite. Tested positive for aconitine masked with lavender oil. A medical glass dropper was found in the wastebasket.</div>
+          </div>
+
+          <div class="clue-item" onclick="showClue('port')">
+            <div class="clue-title">CLUE B: The 10:42 PM WhatsApp Audio & Dolphin's Nose Foghorn</div>
+            <div class="clue-body">Arjun sent a voice note at 10:42 PM claiming he was on his balcony in Siripuram. In the background, you can clearly hear the low-pitch coastal foghorn of Dolphin's Nose! Siripuram is 6 km inland behind hills—that foghorn is only audible directly along the Rushikonda/GITAM coast!</div>
+          </div>
+
+          <div class="clue-item" onclick="showClue('hand')">
+            <div class="clue-title">CLUE C: Safe Sign-Out Log & Left-Handed Ink Smudge</div>
+            <div class="clue-body">The register inside the safe has a signature at 10:50 PM. The wet ink of the fountain pen was dragged to the right by the palm of a LEFT-HANDED writer. Dr. Ram, Sree Nidhi, and Kavya are right-handed. Only Arjun Rao is left-handed!</div>
+          </div>
+
+          <div class="clue-item" onclick="showClue('watch')">
+            <div class="clue-title">CLUE D: Sree Nidhi's Apple Watch Heart Rate Spike</div>
+            <div class="clue-body">Sree Nidhi claimed she was fast asleep in the GITAM Guest House at 21:00. Her watch logged 280 steps and her pulse jumped from 68 BPM to 142 BPM at 10:58 PM! She admits she ran across the campus garden and saw Arjun inside the office with Raghav's dead body!</div>
+          </div>
+
+          <div class="clue-item" onclick="showClue('complaint')">
+            <div class="clue-title">CLUE E: Reconstructed Complaint to Vizag Police Commissioner</div>
+            <div class="clue-body">Found in Raghav's office shredder: a draft complaint against Dr. Ram Prasad for stealing ₹18.4 Crores from GIMSR research accounts, scheduled to be submitted at 10 AM Monday!</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">💡 CASE DEDUCTION LOGIC</span>
+          </div>
+          <div style="font-size: 13.5px; line-height: 1.8; color: #1e293b;">
+            <p><span class="speaker-j">Key Investigative Deductions:</span></p>
+            <ol style="margin-left: 20px; margin-top: 6px;">
+              <li><strong>The Murderer:</strong> Dr. Ram Prasad faced prison for stealing ₹18.4 Crores. He used his doctor's dropper to spike the Araku honey jar while arguing with Raghav in his GITAM office at 10:20 PM.</li>
+              <li><strong>The Timeline:</strong> Raghav drank the tea at 10:25 PM. Following the 25–35 minute poison window, he collapsed at ~10:50 PM.</li>
+              <li><strong>The Second Crime (Theft):</strong> Arjun Rao lied about being in Siripuram (the coastal foghorn gave him away). He snuck into GITAM Suite 501 at 10:50 PM to steal the patent folder with his left hand, but Raghav was already dead!</li>
+              <li><strong>The Witness:</strong> Sree Nidhi spied through the glass door at 10:58 PM, got terrified, and ran back to the GITAM guest house.</li>
+              <li><strong>The Broken Alibi:</strong> Dr. Ram drove out of GITAM toward Anandapuram Toll at 10:29 PM, but panicked about leaving the audit files behind, made a U-turn at 10:46 PM, and snuck back into GITAM on foot via the beach fence!</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 4: DAY 4 INTERROGATIONS ==================== -->
+    <div id="tab-day4" class="tab-content">
+      <div class="dialogue-box">
+        <p><strong style="color: var(--accent-blue); font-family: var(--font-mono);">DAY 4 INTERROGATION LOG:</strong> All four persons of interest were summoned to Vizag Central Crime Station for formal cross-examination. Select each suspect to question them regarding their movements and alibis.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🎙️ INTERROGATION ROOM: VIZAG CCS</span>
+          </div>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+            <button class="day-btn active" id="btn-ram" onclick="selectSuspect('ram')">Dr. Ram Prasad</button>
+            <button class="day-btn" id="btn-sreenidhi" onclick="selectSuspect('sreenidhi')">Sree Nidhi Varma</button>
+            <button class="day-btn" id="btn-arjun" onclick="selectSuspect('arjun')">Arjun Rao</button>
+            <button class="day-btn" id="btn-kavya" onclick="selectSuspect('kavya')">Kavya Reddy</button>
+          </div>
+
+          <div id="interrogation-questions" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+
+        <div class="interrogation-console">
+          <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 10px; font-family: var(--font-mono); font-size: 12px; color: #b45309; font-weight: bold;">
+            RECORDING: VIZAG CCS INTERROGATION TRANSCRIPT
+          </div>
+          <div class="console-history" id="chat-stream">
+            <div class="message msg-suspect">
+              <strong>Dr. Ram Prasad:</strong> "Inspector, I am the Dean of Research at GIMSR. What is the meaning of detaining me?"
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 5: DETECTIVE'S NOTEBOOK ==================== -->
+    <div id="tab-notes" class="tab-content">
+      <div class="grid-2">
+        <div class="card" style="border: 1px solid #f472b6;">
+          <div class="card-header">
+            <span class="card-title" style="color: var(--accent-pink);">📖 DETECTIVE'S NOTEBOOK (PEN & PAPER BACKUP)</span>
+            <span style="font-size: 11px; color: var(--accent-pink); font-family: var(--font-mono); font-weight: bold;">AUTOSAVED</span>
+          </div>
+          <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 10px;">
+            Record your working theories, contradictions, and timeline matches:
+          </p>
+          <textarea id="notebook" class="case-notes" placeholder="Detective's Notes:
+- Murder Location: Executive Suite 501, GITAM University, Rushikonda, Vizag.
+- Autopsy: Aconitine poison takes 25-35 minutes to kill.
+- Raghav died at ~10:50 PM -> tea swallowed at ~10:20 PM!
+- Dr. Ram was alone with Raghav in his GITAM office at 10:20 PM.
+- Clue A: Araku honey jar spiked with lavender-scented aconitine.
+- Clue B: Arjun claimed he was in Siripuram, but the coastal Dolphin's Nose foghorn proved he was at GITAM Beach!
+- Clue C: Safe opened at 10:50 PM with left-handed signature -> Arjun stole the patent, but Raghav was already dead!
+- Clue D: Sree Nidhi's Apple Watch spiked to 142 BPM at 10:58 PM when she saw Arjun in the office.
+- Dr. Ram's car made a U-turn at Anandapuram Toll at 10:46 PM to sneak back into GITAM and steal the audit ledger!"></textarea>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">💡 PLAIN ENGLISH DEDUCTION CHECKLIST</span>
+          </div>
+          <div style="font-size: 13.5px; color: #1e293b; line-height: 1.8;">
+            <p><span class="speaker-j">Investigator's Checklist:</span></p>
+            <ol style="margin-left: 20px; margin-top: 8px;">
+              <li><strong>Who is the killer?</strong> Dr. Ram Prasad (Motive: ₹18.4 Crore embezzlement).</li>
+              <li><strong>How was it done?</strong> Spiked the Araku honey jar on the desk with aconitine and lavender oil at 10:20 PM.</li>
+              <li><strong>When was it swallowed?</strong> At ~10:25 PM (causing death at 10:50 PM).</li>
+              <li><strong>What breaks Dr. Ram's alibi?</strong> The FASTag toll record at Anandapuram showing his U-turn back to GITAM at 10:46 PM.</li>
+              <li><strong>What about Arjun and Sree Nidhi?</strong> Separate acts: Arjun stole the patent folder after Raghav died; Sree Nidhi only spied from the lawn.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 6: FINAL CHARGESHEET ==================== -->
+    <div id="tab-chargesheet" class="tab-content">
+      <div class="card" style="border: 2px solid var(--accent-red); padding: 24px;">
+        <h2 style="font-family: var(--font-mono); font-size: 18px; color: #dc2626; margin-bottom: 8px;">
+          VISAKHAPATNAM POLICE // FINAL COURT CHARGESHEET
+        </h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">
+          Drafted by the <strong>Lead Investigator</strong> for the Vizag Public Prosecutor.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label">1. Primary Accused (Who Murdered Raghav?)</label>
+          <select id="accused-person" class="form-select">
+            <option value="">-- SELECT PRIMARY ACCUSED --</option>
+            <option value="sreenidhi">Sree Nidhi Varma (Wife)</option>
+            <option value="ram">Dr. Ram Prasad (Dean of Clinical Research, GIMSR)</option>
+            <option value="arjun">Arjun Rao (Biotech Lab Technical Lead)</option>
+            <option value="kavya">Kavya Reddy (Executive Assistant)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">2. Exact Murder Method</label>
+          <select id="accused-method" class="form-select">
+            <option value="">-- SELECT METHOD --</option>
+            <option value="kettle">Poisoned the electric water kettle in the pantry at 9:55 PM.</option>
+            <option value="honey_tea">Spiked the Araku wild forest honey jar on the desk with aconitine masked in lavender oil during the 10:15 PM–10:25 PM argument in GITAM Suite 501.</option>
+            <option value="inhaler">Swapped Raghav's inhaler with poisonous vapor.</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">3. Time of Ingestion (When Raghav Drank It)</label>
+          <select id="accused-time" class="form-select">
+            <option value="">-- SELECT TIME WINDOW --</option>
+            <option value="2205">10:05 PM - 10:08 PM (When Kavya delivered the tea set)</option>
+            <option value="2220">10:20 PM - 10:25 PM (During the confrontation with Dr. Ram)</option>
+            <option value="2250">10:50 PM - 10:55 PM (When the safe was opened)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">4. The Evidence That Breaks the Killer's Alibi</label>
+          <select id="accused-proof" class="form-select">
+            <option value="">-- SELECT THE DECISIVE PROOF --</option>
+            <option value="proof_watch">Sree Nidhi's Apple Watch telemetry.</option>
+            <option value="proof_port">The Dolphin's Nose foghorn on Arjun's voice note.</option>
+            <option value="proof_ram_fastag">Dr. Ram claimed he drove straight home, but his FASTag toll at Anandapuram proved he made a U-turn at 10:46 PM to sneak back to GITAM on foot to steal his audit ledger!</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">5. Explanation of the Other Suspects (Red Herrings)</label>
+          <select id="accused-sub" class="form-select">
+            <option value="">-- SELECT EXPLANATION --</option>
+            <option value="conspiracy">All four suspects planned a joint murder.</option>
+            <option value="independent">Independent acts: Arjun (left-handed) stole the patent binder at 10:50 PM after Raghav was already dead; Sree Nidhi spied from the lawn; Dr. Ram was the sole poisoner.</option>
+          </select>
+        </div>
+
+        <button class="btn-submit-warrant" onclick="submitChargesheet()">SUBMIT CHARGESHEET TO PROSECUTOR</button>
+
+        <div id="verdict-display" class="verdict-box"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Map selection details
+    const mapPoints = {
+      gitam: {
+        title: "★ 1. GITAM University Campus, Rushikonda (The Crime Scene)",
+        desc: "Located on the scenic Rushikonda beachfront in Visakhapatnam. Raghavendra Varma was found dead in Executive Suite 501 on the top floor of the GITAM Research & Innovation Tower at 11:45 PM.<br><br>• Spilled artisan copper mug of Kashmiri Kahwa tea on the floor.<br>• Wall safe behind the ship painting was unlocked using PIN #808 (Patent deeds stolen).<br>• Sliding ocean-view balcony door left 4 inches unlatched in the storm.<br>• GITAM Main Gate logged Dr. Ram leaving at 10:29 PM; rear beach fence showed a wet footprint at 11:14 PM!"
+      },
+      anandapuram: {
+        title: "2. Anandapuram Highway Toll Plaza (NH-16 Bypass)",
+        desc: "Located on the highway loop connecting the GITAM/Bheemili Beach Road to NH-16. Dr. Ram drove here in his Fortuner at 10:29 PM, but at 10:46 PM his FASTag logged a U-turn loop speeding straight back to GITAM!"
+      },
+      mvp: {
+        title: "3. MVP Colony 24/7 Apollo Pharmacy",
+        desc: "A major commercial neighborhood in Vizag. Executive assistant Kavya Reddy arrived here at 10:56 PM and paid for migraine medicine at the register (receipt verified)."
+      },
+      siripuram: {
+        title: "4. Siripuram & Waltair Uplands",
+        desc: "An upscale inland area of Vizag where Arjun Rao claimed he was sitting on his apartment balcony. However, the background of his 10:42 PM voice recording caught the coastal foghorn of Dolphin's Nose—which cannot be heard from inland Siripuram!"
+      },
+      rkbeach: {
+        title: "5. RK Beach Promenade & Submarine Museum",
+        desc: "Vizag's famous ocean promenade. CCTV cameras along the beach road recorded heavy rain and gale winds, with zero traffic between 10:00 PM and 11:30 PM."
+      },
+      port: {
+        title: "6. Dolphin's Nose Lighthouse & Vizag Port",
+        desc: "The massive promontory overlooking Vizag harbour. Operates an automated marine foghorn during heavy coastal rainstorms. This horn was captured on Arjun's voice note, proving he was parked near GITAM Beach, not Siripuram."
+      }
+    };
+
+    function selectMapPoint(key) {
+      const pt = mapPoints[key];
+      document.getElementById('map-intel-box').innerHTML = `
+        <strong style="color: #dc2626; font-size: 15px;">${pt.title}:</strong><br>
+        <p style="margin-top: 6px;">${pt.desc}</p>
+      `;
+    }
+
+    function showClue(type) {
+      const clues = {
+        honey: "CLUE A: The Araku wild forest honey jar on Raghav's credenza held 15mg of liquid aconitine blended with lavender oil to conceal its bitter taste. In the trash, an empty 5ml doctor's amber dropper was recovered.",
+        port: "CLUE B: In Arjun's voice note sent at 10:42 PM, audio analysis isolates the coastal foghorn of the Dolphin's Nose Lighthouse. Siripuram is 6 km inland behind hills. Arjun was parked 500 meters from the GITAM beach campus!",
+        hand: "CLUE C: The safe register signature at 10:50 PM was smudged to the right by the palm of a LEFT-HANDED writer. Dr. Ram, Sree Nidhi, and Kavya are right-handed. Only Arjun Rao is left-handed!",
+        watch: "CLUE D: Sree Nidhi's Apple Watch logged 280 steps and a pulse jump to 142 BPM at 10:58 PM. She admits she ran across the campus garden and saw Arjun inside the office with Raghav's dead body!",
+        complaint: "CLUE E: Reconstructed paper from the shredder: Raghav's signed complaint to the Vizag Police Commissioner against Dr. Ram Prasad for embezzling ₹18.4 Crores, scheduled for 10 AM Monday!"
+      };
+      alert(clues[type]);
+    }
+
+    // Tab switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
+
+      const btn = Array.from(document.querySelectorAll('.day-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+      if (btn) btn.classList.add('active');
+    }
+
+    // Interrogations
+    let currentSuspect = 'ram';
+    const dialogueData = {
+      ram: {
+        name: "Dr. Ram Prasad",
+        questions: [
+          {
+            q: "Investigator: 'Why did your FASTag show a U-turn at Anandapuram Toll at 10:46 PM?'",
+            a: "Dr. Ram: (Sweating). 'Look, Inspector... Raghav confronted me at 10:18 PM about the GIMSR research accounts and shouted that he was going to the Police Commissioner on Monday morning. When I left GITAM at 10:29 PM, I drove toward Anandapuram in sheer panic. At the toll plaza, I realized my life was over if those bank audit files stayed on his desk credenza. So I turned back to sneak into GITAM via the rear beach fence to take the folder back! But by the time I reached the beach path at 11:14 PM, Kavya was screaming. I fled back to my car!'"
+          },
+          {
+            q: "Investigator: 'Did you poison his Kashmiri Kahwa tea during your 10:15 PM meeting?'",
+            a: "Dr. Ram: 'I didn't touch his tea! He poured it himself while we argued! If I had poisoned him, why would I drive back to steal paper records? If he was dead, he couldn't testify against me—it was the paper audit trail that terrified me!'"
+          }
+        ]
+      },
+      sreenidhi: {
+        name: "Sree Nidhi Varma",
+        questions: [
+          {
+            q: "Investigator: 'Your Apple Watch shows your heart rate jumped to 142 BPM at 10:58 PM. Explain.'",
+            a: "Sree Nidhi: 'I heard noises at 10:50 PM. I walked across the campus garden in the rain and looked through the glass sliding door at 11:00 PM. Raghav was already collapsed on his desk! And Arjun Rao was standing by the open safe stuffing patent binders into his bag! I ran back terrified Arjun would murder me next!'"
+          }
+        ]
+      },
+      arjun: {
+        name: "Arjun Rao",
+        questions: [
+          {
+            q: "Investigator: 'The Dolphin's Nose coastal foghorn in your voice note proves you were at GITAM Beach at 10:42 PM, not Siripuram.'",
+            a: "Arjun: 'Fine! I came to take back my patent before Raghav sold it. I used Kavya's safe code. But when I entered Suite 501 at 10:50 PM, RAGHAV WAS ALREADY DEAD! His face was blue, and his tea was spilled. I checked his carotid pulse—he was gone! I took my patent, signed the log with my left hand, and fled! Whoever poisoned him did it before 10:30 PM!'"
+          }
+        ]
+      },
+      kavya: {
+        name: "Kavya Reddy",
+        questions: [
+          {
+            q: "Investigator: 'Did Raghav drink his tea when you served it at 10:05 PM?'",
+            a: "Kavya: 'No! The water was still steeping. Raghav said he would drink it during his 10:15 PM consultation with Dr. Ram. Raghav always sweetened it with his personal Araku forest honey jar on the desk credenza.'"
+          }
+        ]
+      }
+    };
+
+    function selectSuspect(key) {
+      currentSuspect = key;
+      renderQuestions();
+    }
+
+    function renderQuestions() {
+      const box = document.getElementById('interrogation-questions');
+      box.innerHTML = '';
+      const suspect = dialogueData[currentSuspect];
+      suspect.questions.forEach(q => {
+        const btn = document.createElement('button');
+        btn.className = 'question-btn';
+        btn.innerHTML = '❓ ' + q.q;
+        btn.onclick = () => askQuestion(q.q, q.a);
+        box.appendChild(btn);
+      });
+    }
+
+    function askQuestion(qText, aText) {
+      const stream = document.getElementById('chat-stream');
+      const qDiv = document.createElement('div');
+      qDiv.className = 'message msg-investigator';
+      qDiv.innerHTML = qText;
+      stream.appendChild(qDiv);
+
+      setTimeout(() => {
+        const aDiv = document.createElement('div');
+        aDiv.className = 'message msg-suspect';
+        aDiv.innerHTML = aText;
+        stream.appendChild(aDiv);
+        stream.scrollTop = stream.scrollHeight;
+      }, 200);
+    }
+
+    const noteArea = document.getElementById('notebook');
+    noteArea.value = localStorage.getItem('gitam_case_notes') || '';
+    noteArea.addEventListener('input', () => {
+      localStorage.setItem('gitam_case_notes', noteArea.value);
+    });
+
+    renderQuestions();
+
+    function submitChargesheet() {
+      const accused = document.getElementById('accused-person').value;
+      const method = document.getElementById('accused-method').value;
+      const time = document.getElementById('accused-time').value;
+      const proof = document.getElementById('accused-proof').value;
+      const sub = document.getElementById('accused-sub').value;
+
+      const verdict = document.getElementById('verdict-display');
+      verdict.style.display = 'block';
+
+      const isCorrect = (
+        accused === 'ram' &&
+        method === 'honey_tea' &&
+        time === '2220' &&
+        proof === 'proof_ram_fastag' &&
+        sub === 'independent'
+      );
+
+      if (isCorrect) {
+        verdict.className = 'verdict-box success';
+        verdict.innerHTML = `
+          <h2 style="font-family: var(--font-mono); font-size: 18px; margin-bottom: 10px;">
+            🎉 OUTSTANDING DEDUCTION, DETECTIVE! 100% CONVICTION SECURED!
+          </h2>
+          <p style="font-size: 14px; line-height: 1.6;">
+            <strong>YOUR DEDUCTIONS NAILED THE CASE!</strong> The Vizag Public Prosecutor approved the chargesheet:
+          </p>
+          <ul style="font-size: 13px; line-height: 1.7; margin: 12px 0 12px 20px;">
+            <li><strong>The Killer:</strong> Dr. Ram Prasad faced immediate ruin and prison for embezzling ₹18.4 Crores from GIMSR research accounts.</li>
+            <li><strong>The Method & Delivery:</strong> Knowing Raghav always sweetened his Kahwa with Araku raw forest honey, Dr. Ram used concentrated aconitine masked with lavender oil. During their furious 10:15 PM–10:25 PM argument in GITAM Suite 501, Dr. Ram spiked the honey jar while Raghav's back was turned.</li>
+            <li><strong>The Timeline:</strong> Raghav drank the tea at ~10:25 PM. Following aconitine's lethal 25–35 minute absorption window, fatal heart collapse struck between 10:50 PM and 10:55 PM.</li>
+            <li><strong>The Broken Alibi:</strong> Dr. Ram fled GITAM Main Gate at 10:29 PM toward Anandapuram Toll to create an alibi. But realizing the paper audit folder was still on the credenza, he made a U-turn at 10:46 PM, sped back, and snuck through the GITAM beach fence at 11:14 PM—only to flee when Kavya screamed!</li>
+            <li><strong>The Other Suspects:</strong> Arjun Rao stole the patent binder at 10:50 PM (left-handed smudge) after Raghav was already dead; Sree Nidhi witnessed Arjun from the campus garden (142 BPM heart rate spike). Neither was the murderer!</li>
+          </ul>
+          <p style="font-weight: bold; font-family: var(--font-mono);">
+            CASE #VIZ-309 CLOSED // GITAM UNIVERSITY HOMICIDE SOLVED!
+          </p>
+        `;
+      } else {
+        verdict.className = 'verdict-box failure';
+        verdict.innerHTML = `
+          <h2 style="font-family: var(--font-mono); font-size: 18px; margin-bottom: 10px;">
+            ❌ CHARGESHEET REJECTED BY PUBLIC PROSECUTOR
+          </h2>
+          <p style="font-size: 13px;">
+            Detective, review your case notes and re-examine the contradictions:
+          </p>
+          <ul style="font-size: 12px; margin: 8px 0 8px 20px; line-height: 1.6;">
+            ${accused !== 'ram' ? "<li><strong>Suspect:</strong> The person you selected has a verified physical contradiction or was committing a secondary theft.</li>" : "<li>✓ Correct Accused Identified (Dr. Ram Prasad).</li>"}
+            ${method !== 'honey_tea' ? "<li><strong>Method:</strong> Check Clue A about the Araku wild forest honey jar and lavender masking agent.</li>" : "<li>✓ Correct Poison Delivery Mechanism.</li>"}
+            ${time !== '2220' ? "<li><strong>Time:</strong> Remember aconitine takes 25-35 minutes to kill, and Raghav was dead before 10:50 PM.</li>" : "<li>✓ Correct Ingestion Window.</li>"}
+            ${proof !== 'proof_ram_fastag' ? "<li><strong>Proof:</strong> The decisive proof is Dr. Ram's FASTag U-turn at Anandapuram Toll at 10:46 PM.</li>" : "<li>✓ Correct Decisive Proof.</li>"}
+            ${sub !== 'independent' ? "<li><strong>Sub-Plots:</strong> The actions of Arjun and Sree Nidhi were independent events, not murder.</li>" : "<li>✓ Correct Sub-Plot Explanation.</li>"}
+          </ul>
+        `;
+      }
+      verdict.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
